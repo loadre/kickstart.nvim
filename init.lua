@@ -656,7 +656,7 @@ require('lazy').setup {
     priority = 1000, -- make sure to load this before all the other start plugins
     config = function()
       -- Load the colorscheme here
-      vim.cmd.colorscheme 'kanagawa-dragon'
+      vim.cmd.colorscheme 'retrobox'
       vim.api.nvim_set_hl(0, 'Normal', { bg = 'none', blend = 15 })
       -- You can configure highlights by doing something like
       vim.cmd.hi 'Comment gui=none'

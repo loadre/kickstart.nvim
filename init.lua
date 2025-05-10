@@ -28,9 +28,9 @@ vim.opt.showmode = false
 --  Schedule the setting after `UiEnter` because it can increase startup-time.
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
-vim.schedule(function()
-  vim.opt.clipboard = 'unnamedplus'
-end)
+-- vim.schedule(function()
+--   vim.opt.clipboard = 'unnamedplus'
+-- end)
 
 -- Colorcolumn
 vim.opt.colorcolumn = '80'
@@ -129,6 +129,9 @@ vim.keymap.set('n', 'q:', '<NOP>')
 -- More convenient save
 vim.keymap.set('n', '<leader>w', ':w<CR>')
 
+vim.keymap.set('i', '<C-p>', '<C-P>')
+vim.keymap.set('i', '<C-n>', '<C-N>')
+
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
@@ -166,7 +169,7 @@ vim.opt.rtp:prepend(lazypath)
 --    :Lazy update
 --
 -- NOTE: Here is where you install your plugins.
-require('lazy').setup ({
+require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
 
@@ -236,58 +239,58 @@ require('lazy').setup ({
   -- Then, because we use the `opts` key (recommended), the configuration runs
   -- after the plugin has been loaded as `require(MODULE).setup(opts)`.
 
-  { -- Useful plugin to show you pending keybinds.
-    'folke/which-key.nvim',
-    event = 'VimEnter', -- Sets the loading event to 'VimEnter'
-    opts = {
-      -- delay between pressing a key and opening which-key (milliseconds)
-      -- this setting is independent of vim.opt.timeoutlen
-      delay = 0,
-      icons = {
-        -- set icon mappings to true if you have a Nerd Font
-        mappings = vim.g.have_nerd_font,
-        -- If you are using a Nerd Font: set icons.keys to an empty table which will use the
-        -- default which-key.nvim defined Nerd Font icons, otherwise define a string table
-        keys = vim.g.have_nerd_font and {} or {
-          Up = '<Up> ',
-          Down = '<Down> ',
-          Left = '<Left> ',
-          Right = '<Right> ',
-          C = '<C-…> ',
-          M = '<M-…> ',
-          D = '<D-…> ',
-          S = '<S-…> ',
-          CR = '<CR> ',
-          Esc = '<Esc> ',
-          ScrollWheelDown = '<ScrollWheelDown> ',
-          ScrollWheelUp = '<ScrollWheelUp> ',
-          NL = '<NL> ',
-          BS = '<BS> ',
-          Space = '<Space> ',
-          Tab = '<Tab> ',
-          F1 = '<F1>',
-          F2 = '<F2>',
-          F3 = '<F3>',
-          F4 = '<F4>',
-          F5 = '<F5>',
-          F6 = '<F6>',
-          F7 = '<F7>',
-          F8 = '<F8>',
-          F9 = '<F9>',
-          F10 = '<F10>',
-          F11 = '<F11>',
-          F12 = '<F12>',
-        },
-      },
-
-      -- Document existing key chains
-      spec = {
-        { '<leader>s', group = '[S]earch' },
-        { '<leader>t', group = '[T]oggle' },
-        { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
-      },
-    },
-  },
+  -- { -- Useful plugin to show you pending keybinds.
+  --   'folke/which-key.nvim',
+  --   event = 'VimEnter', -- Sets the loading event to 'VimEnter'
+  --   opts = {
+  --     -- delay between pressing a key and opening which-key (milliseconds)
+  --     -- this setting is independent of vim.opt.timeoutlen
+  --     delay = 0,
+  --     icons = {
+  --       -- set icon mappings to true if you have a Nerd Font
+  --       mappings = vim.g.have_nerd_font,
+  --       -- If you are using a Nerd Font: set icons.keys to an empty table which will use the
+  --       -- default which-key.nvim defined Nerd Font icons, otherwise define a string table
+  --       keys = vim.g.have_nerd_font and {} or {
+  --         Up = '<Up> ',
+  --         Down = '<Down> ',
+  --         Left = '<Left> ',
+  --         Right = '<Right> ',
+  --         C = '<C-…> ',
+  --         M = '<M-…> ',
+  --         D = '<D-…> ',
+  --         S = '<S-…> ',
+  --         CR = '<CR> ',
+  --         Esc = '<Esc> ',
+  --         ScrollWheelDown = '<ScrollWheelDown> ',
+  --         ScrollWheelUp = '<ScrollWheelUp> ',
+  --         NL = '<NL> ',
+  --         BS = '<BS> ',
+  --         Space = '<Space> ',
+  --         Tab = '<Tab> ',
+  --         F1 = '<F1>',
+  --         F2 = '<F2>',
+  --         F3 = '<F3>',
+  --         F4 = '<F4>',
+  --         F5 = '<F5>',
+  --         F6 = '<F6>',
+  --         F7 = '<F7>',
+  --         F8 = '<F8>',
+  --         F9 = '<F9>',
+  --         F10 = '<F10>',
+  --         F11 = '<F11>',
+  --         F12 = '<F12>',
+  --       },
+  --     },
+  --
+  --     -- Document existing key chains
+  --     spec = {
+  --       { '<leader>s', group = '[S]earch' },
+  --       { '<leader>t', group = '[T]oggle' },
+  --       { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
+  --     },
+  --   },
+  -- },
 
   -- NOTE: Plugins can specify dependencies.
   --
@@ -580,7 +583,12 @@ require('lazy').setup ({
             [vim.diagnostic.severity.INFO] = '󰋽 ',
             [vim.diagnostic.severity.HINT] = '󰌶 ',
           },
-        } or {},
+        } or {
+          [vim.diagnostic.severity.ERROR] = 'E',
+          [vim.diagnostic.severity.WARN] = 'W',
+          [vim.diagnostic.severity.INFO] = 'I',
+          [vim.diagnostic.severity.HINT] = 'H',
+        },
         virtual_text = {
           source = 'if_many',
           spacing = 2,
@@ -834,20 +842,20 @@ require('lazy').setup ({
     -- change the command in the config to whatever the name of that colorscheme is
     --
     -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
-    'folke/tokyonight.nvim',
+    'ayu-theme/ayu-vim',
     priority = 1000, -- Make sure to load this before all the other start plugins.
     config = function()
-      ---@diagnostic disable-next-line: missing-fields
-      require('tokyonight').setup {
-        styles = {
-          comments = { italic = false }, -- Disable italics in comments
-        },
-      }
+      -- ---@diagnostic disable-next-line: missing-fields
+      -- require('tokyonight').setup {
+      --   styles = {
+      --     comments = { italic = false }, -- Disable italics in comments
+      --   },
+      -- }
 
       -- Load the colorscheme here.
       -- Like many other themes, this one has different styles, and you could load
       -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      vim.cmd.colorscheme 'tokyonight-night'
+      vim.cmd.colorscheme 'ayu'
     end,
   },
 
@@ -900,7 +908,7 @@ require('lazy').setup ({
     main = 'nvim-treesitter.configs', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
-      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' },
+      ensure_installed = { 'bash', 'c', 'diff', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' },
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {
